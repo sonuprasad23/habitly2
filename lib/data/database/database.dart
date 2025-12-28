@@ -310,7 +310,7 @@ class AppDatabase extends _$AppDatabase {
                          s.startedAt.isSmallerThanValue(endOfDay) & 
                          s.completed.equals(true)))
         .get();
-    return sessions.fold(0, (sum, s) => sum + s.durationSeconds);
+    return sessions.fold<int>(0, (sum, s) => sum + s.durationSeconds);
   }
 
   // ========== TASKS DAO METHODS ==========

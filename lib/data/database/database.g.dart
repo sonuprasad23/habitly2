@@ -914,6 +914,8 @@ class HabitsCompanion extends UpdateCompanion<Habit> {
           ..write('reminderTime: $reminderTime, ')
           ..write('createdAt: $createdAt, ')
           ..write('archivedAt: $archivedAt, ')
+          ..write('sortOrder: $sortOrder')
+          ..write(')'))
         .toString();
   }
 }
