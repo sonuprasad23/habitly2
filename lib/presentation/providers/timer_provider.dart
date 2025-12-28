@@ -3,7 +3,6 @@ import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitly/core/constants/app_constants.dart';
 import 'package:habitly/data/database/database.dart';
-import 'package:habitly/data/database/tables/timer_sessions_table.dart';
 
 // Timer state
 enum TimerStatus { idle, running, paused, completed }
@@ -83,8 +82,8 @@ class TimerNotifier extends StateNotifier<TimerState> {
   Future<void> start() async {
     if (state.status == TimerStatus.running) return;
 
-    // Create session in database using the DAO
-    final sessionId = await _db.timerSessionsDao.startSession(
+    // Create session in database
+    final sessionId = await _db.startSession(
       TimerSessionsCompanion.insert(
         timerType: state.timerType,
         durationSeconds: state.totalSeconds,
@@ -113,7 +112,7 @@ class TimerNotifier extends StateNotifier<TimerState> {
     _timer?.cancel();
     
     if (state.sessionId != null) {
-      await _db.timerSessionsDao.cancelSession(state.sessionId!);
+      await _db.cancelSession(state.sessionId!);
     }
 
     state = TimerState(timerType: state.timerType);
@@ -142,7 +141,7 @@ class TimerNotifier extends StateNotifier<TimerState> {
     _timer?.cancel();
     
     if (state.sessionId != null) {
-      await _db.timerSessionsDao.completeSession(
+      await _db.completeSession(
         state.sessionId!,
         state.totalSeconds,
       );
@@ -174,11 +173,11 @@ class TimerNotifier extends StateNotifier<TimerState> {
 // Today's timer sessions provider
 final todayTimerSessionsProvider = StreamProvider<List<TimerSession>>((ref) {
   final db = ref.watch(databaseProvider);
-  return db.timerSessionsDao.watchTodaySessions(DateTime.now());
+  return db.watchTodaySessions(DateTime.now());
 });
 
 // Total time today provider
 final totalTimeTodayProvider = FutureProvider<int>((ref) async {
   final db = ref.watch(databaseProvider);
-  return db.timerSessionsDao.getTotalTimeToday(DateTime.now());
+  return db.getTotalTimeToday(DateTime.now());
 });

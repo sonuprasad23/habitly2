@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitly/core/theme/app_colors.dart';
-import 'package:habitly/data/database/tables/timer_sessions_table.dart';
+import 'package:habitly/data/database/database.dart';
 import 'package:habitly/presentation/providers/timer_provider.dart';
 import 'package:habitly/core/services/sound_service.dart';
 import 'dart:math' as math;
