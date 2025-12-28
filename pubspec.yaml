@@ -30,7 +30,7 @@ dependencies:
   # Notifications & Background
   flutter_local_notifications: ^19.0.0
   android_alarm_manager_plus: ^5.0.0
-  workmanager: ^0.5.2
+  workmanager: ^0.9.0+3
   
   # Audio & Haptics
   just_audio: ^0.9.36
