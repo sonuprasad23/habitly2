@@ -1,0 +1,87 @@
+name: habitly
+description: A modern habit tracking and daily life optimization app.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  flutter_riverpod: ^2.4.9
+  riverpod_annotation: ^2.3.3
+  
+  # Database
+  drift: ^2.14.1
+  sqlite3_flutter_libs: ^0.5.18
+  path_provider: ^2.1.1
+  path: ^1.8.3
+  
+  # Routing
+  go_router: ^13.0.1
+  
+  # UI Components
+  flutter_svg: ^2.0.9
+  lottie: ^3.0.0
+  
+  # Notifications & Background
+  flutter_local_notifications: ^16.3.0
+  android_alarm_manager_plus: ^3.0.4
+  workmanager: ^0.5.2
+  
+  # Audio & Haptics
+  just_audio: ^0.9.36
+  vibration: ^1.8.4
+  
+  # Utils
+  intl: ^0.18.1
+  uuid: ^4.2.2
+  share_plus: ^7.2.1
+  file_picker: ^6.1.1
+  crypto: ^3.0.3
+  shared_preferences: ^2.2.2
+  
+  # Icons
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  drift_dev: ^2.14.1
+  build_runner: ^2.4.8
+  riverpod_generator: ^2.3.9
+  custom_lint: ^0.5.8
+  mockito: ^5.4.4
+  build_verify: ^3.1.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/sounds/
+    - assets/animations/
+    - assets/icons/
+  
+  fonts:
+    - family: Outfit
+      fonts:
+        - asset: assets/fonts/Outfit-Regular.ttf
+        - asset: assets/fonts/Outfit-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Outfit-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Outfit-Bold.ttf
+          weight: 700
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
