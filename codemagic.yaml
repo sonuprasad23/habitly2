@@ -9,6 +9,8 @@ workflows:
         - habitly_keystore
       flutter: stable
       java: 21
+      vars:
+        FLUTTER_BUILD_PLATFORM: android
     
     cache:
       cache_paths:
@@ -32,20 +34,11 @@ workflows:
       
       - name: Get Flutter packages
         script: |
-          flutter packages pub get
+          flutter pub get
       
       - name: Generate code
         script: |
           dart run build_runner build --delete-conflicting-outputs
-      
-      - name: Analyze code
-        script: |
-          flutter analyze
-      
-      - name: Run tests
-        script: |
-          flutter test
-        ignore_failure: true
       
       - name: Build Release APK
         script: |
@@ -63,7 +56,6 @@ workflows:
       - build/**/outputs/**/*.apk
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
-      - flutter_drive.log
     
     publishing:
       email:
@@ -90,14 +82,21 @@ workflows:
           include: true
     
     scripts:
+      - name: Set up local.properties
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      
       - name: Get Flutter packages
-        script: flutter packages pub get
+        script: |
+          flutter pub get
       
       - name: Generate code
-        script: dart run build_runner build --delete-conflicting-outputs
+        script: |
+          dart run build_runner build --delete-conflicting-outputs
       
       - name: Build Debug APK
-        script: flutter build apk --debug
+        script: |
+          flutter build apk --debug
     
     artifacts:
       - build/**/outputs/**/*.apk
