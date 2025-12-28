@@ -11,7 +11,7 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
-
+compileSdk
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.habitly.app"
-    compileSdk 34
+    compileSdk 36
     ndkVersion flutter.ndkVersion
 
     compileOptions {
