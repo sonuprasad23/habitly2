@@ -1,5 +1,7 @@
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitly/data/database/database.dart';
+import 'package:habitly/data/database/tables/habits_table.dart';
 
 // All habits stream provider
 final allHabitsProvider = StreamProvider<List<Habit>>((ref) {

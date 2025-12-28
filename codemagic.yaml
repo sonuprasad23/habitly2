@@ -36,10 +36,20 @@ workflows:
       
       - name: Generate Drift database code
         script: |
-          echo "Running build_runner..."
-          dart run build_runner build --delete-conflicting-outputs --verbose
-          echo "Code generation complete!"
-          ls -la lib/data/database/
+          set -e
+          echo "=== Running build_runner ==="
+          dart run build_runner build --delete-conflicting-outputs 2>&1 || {
+            echo "=== build_runner failed! ==="
+            exit 1
+          }
+          echo "=== Code generation complete ==="
+          echo "=== Checking generated files ==="
+          find lib -name "*.g.dart" -type f
+          if [ ! -f "lib/data/database/database.g.dart" ]; then
+            echo "ERROR: database.g.dart was not generated!"
+            exit 1
+          fi
+          echo "=== database.g.dart exists ==="
       
       - name: Build Release APK
         script: |
@@ -89,7 +99,14 @@ workflows:
       
       - name: Generate Drift database code
         script: |
-          dart run build_runner build --delete-conflicting-outputs --verbose
+          set -e
+          echo "=== Running build_runner ==="
+          dart run build_runner build --delete-conflicting-outputs 2>&1 || {
+            echo "=== build_runner failed! ==="
+            exit 1
+          }
+          echo "=== Checking generated files ==="
+          find lib -name "*.g.dart" -type f
       
       - name: Build Debug APK
         script: |

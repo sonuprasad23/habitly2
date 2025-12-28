@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habitly/core/constants/app_constants.dart';
 import 'package:habitly/data/database/database.dart';
@@ -82,7 +83,7 @@ class TimerNotifier extends StateNotifier<TimerState> {
   Future<void> start() async {
     if (state.status == TimerStatus.running) return;
 
-    // Create session in database
+    // Create session in database using the DAO
     final sessionId = await _db.timerSessionsDao.startSession(
       TimerSessionsCompanion.insert(
         timerType: state.timerType,
@@ -112,7 +113,6 @@ class TimerNotifier extends StateNotifier<TimerState> {
     _timer?.cancel();
     
     if (state.sessionId != null) {
-      final elapsedSeconds = state.totalSeconds - state.remainingSeconds;
       await _db.timerSessionsDao.cancelSession(state.sessionId!);
     }
 
