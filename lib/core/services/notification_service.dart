@@ -5,11 +5,13 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 final notificationServiceProvider = Provider<NotificationService>((ref) {
-  throw UnimplementedError('NotificationService must be initialized in main.dart');
+  throw UnimplementedError(
+      'NotificationService must be initialized in main.dart');
 });
 
 class NotificationService {
-  final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _plugin =
+      FlutterLocalNotificationsPlugin();
   bool _isInitialized = false;
 
   Future<void> initialize() async {
@@ -17,7 +19,8 @@ class NotificationService {
 
     tz.initializeTimeZones();
 
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     const initSettings = InitializationSettings(android: androidSettings);
 
     await _plugin.initialize(
@@ -51,8 +54,9 @@ class NotificationService {
       importance: Importance.defaultImportance,
     );
 
-    final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    final androidPlugin = _plugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
 
     await androidPlugin?.createNotificationChannel(reminderChannel);
     await androidPlugin?.createNotificationChannel(timerChannel);
@@ -60,8 +64,7 @@ class NotificationService {
   }
 
   void _onNotificationTap(NotificationResponse response) {
-    // Handle notification tap - navigate to relevant screen
-    // This will be connected to the router in a real implementation
+    // TODO: route to the right screen if needed
   }
 
   // Schedule a habit reminder
@@ -74,7 +77,7 @@ class NotificationService {
   }) async {
     for (final day in daysOfWeek) {
       final notificationId = habitId * 10 + day;
-      
+
       await _plugin.zonedSchedule(
         notificationId,
         'Time for your habit!',
@@ -90,8 +93,6 @@ class NotificationService {
           ),
         ),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
         payload: 'habit:$habitId',
       );
@@ -106,7 +107,8 @@ class NotificationService {
   }
 
   // Show timer completion notification
-  Future<void> showTimerComplete(String timerType, int durationMinutes) async {
+  Future<void> showTimerComplete(
+      String timerType, int durationMinutes) async {
     await _plugin.show(
       DateTime.now().millisecondsSinceEpoch ~/ 1000,
       'Timer Complete! 🎉',
@@ -140,29 +142,33 @@ class NotificationService {
   }
 
   // Show streak milestone
-  Future<void> showStreakMilestone(String habitName, int streakDays) async {
+  Future<void> showStreakMilestone(
+      String habitName, int streakDays) async {
     await showAchievement(
       '🔥 Streak Milestone!',
       'Congratulations! You\'ve reached $streakDays days on "$habitName"!',
     );
   }
 
-  tz.TZDateTime _nextInstanceOfWeekdayTime(int weekday, int hour, int minute) {
+  tz.TZDateTime _nextInstanceOfWeekdayTime(
+      int weekday, int hour, int minute) {
     final now = tz.TZDateTime.now(tz.local);
-    var scheduledDate = tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
-    
+    var scheduledDate =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
+
     while (scheduledDate.weekday != weekday || scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
-    
+
     return scheduledDate;
   }
 
   // Request notification permissions (Android 13+)
   Future<bool> requestPermissions() async {
-    final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
-    
+    final androidPlugin = _plugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
+
     return await androidPlugin?.requestNotificationsPermission() ?? false;
   }
 }
