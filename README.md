@@ -12,6 +12,8 @@ A modern, offline-first habit tracking and daily life optimization app built wit
 - 🎨 Material 3 design with light/dark themes
 - 📱 100% offline - no account required
 
+
+
 ## Getting Started
 
 ### Prerequisites
